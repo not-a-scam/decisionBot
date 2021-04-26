@@ -179,7 +179,7 @@ async def choose(ctx):
     await ctx.send('I choose you, {}!'.format(random.choice(member_names)))
 
 
-@bot.command(name='weapon', help='Generates a random character', aliases=['w'])
+@bot.command(name='weapon', help='Generates a random weapon', aliases=['w'])
 async def rand_weapon(ctx, *args):
     game = args[0].lower()
     if len(args) >= 2:

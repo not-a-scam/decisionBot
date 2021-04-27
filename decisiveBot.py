@@ -4,18 +4,24 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+# Gets bot token and possibly other sensitive information from a .env file
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
+
+# set bot command prefix (e.g. every command on discord has to start with ! for the bot to recongise it)
 bot = commands.Bot(command_prefix='!')
 
 
+# set bot status on discord (5 types: playing, streaming, listening, watching and competing)
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.competing,
                                                         name='Monke Chess'))
 
 
+# creates a team based on the people in the voice channel the person who called the command is in. Can generate a
+# custom number of teams by taking in a no. of teams argument
 @bot.command(name='team', help='Generates teams from your current voice channel', aliases=['t'])
 async def team(ctx, no_of_teams: int):
     guild = ctx.guild
@@ -53,6 +59,7 @@ async def team(ctx, no_of_teams: int):
         await ctx.send(f'Team {index + 1}: {", ".join(team_)}')
 
 
+# randomly picks a map out of a pool of maps for a specific game
 @bot.command(name='map', help='Generates a random map!')
 async def rand_map(ctx, game):
     game = game.lower()
@@ -64,6 +71,8 @@ async def rand_map(ctx, game):
         await ctx.send('Game does not exist/ is not supported!')
 
 
+# randomly picks a character out of a pool of characters for a specific game. Type of character can also be defined
+# based on the game
 @bot.command(name='character', help='Generates a random character', aliases=['c'])
 async def rand_char(ctx, *args):
     game = args[0].lower()
@@ -152,6 +161,7 @@ async def rand_char(ctx, *args):
         await ctx.send('Game does not exist/ is not supported!')
 
 
+# Returns the result of a flipped coin
 @bot.command(name='coinflip', help='Flips a coin!', aliases=['cf'])
 async def rand_char(ctx):
     choices = ['Heads', 'Tails']
@@ -159,6 +169,7 @@ async def rand_char(ctx):
     return
 
 
+# chooses a random person in the voice channel
 @bot.command(name='choose', help='Chooses someone!')
 async def choose(ctx):
     guild = ctx.guild
@@ -186,6 +197,7 @@ async def choose(ctx):
     await ctx.send('I choose you, {}!'.format(random.choice(member_names)))
 
 
+# randomly picks a weapon out of a pool of weapons for a specific game. Type of weapon can also be specified
 @bot.command(name='weapon', help='Generates a random weapon', aliases=['w'])
 async def rand_weapon(ctx, *args):
     game = args[0].lower()

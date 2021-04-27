@@ -13,7 +13,7 @@ bot = commands.Bot(command_prefix='!')
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.competing,
-                                                        name='in Monke Chess'))
+                                                        name='Monke Chess'))
 
 
 @bot.command(name='team', help='Generates teams from your current voice channel', aliases=['t'])

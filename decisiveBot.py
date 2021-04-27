@@ -9,7 +9,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 
-# set bot command prefix (e.g. every command on discord has to start with ! for the bot to recongise it)
+# set bot command prefix (e.g. every command on discord has to start with ! for the bot to recognise it)
 bot = commands.Bot(command_prefix='!')
 
 
@@ -22,12 +22,13 @@ async def on_ready():
 
 # creates a team based on the people in the voice channel the person who called the command is in. Can generate a
 # custom number of teams by taking in a no. of teams argument
-@bot.command(name='team', help='Generates teams from your current voice channel', aliases=['t'])
-async def team(ctx, no_of_teams: int):
+@bot.command(name='team', help='Generates teams from your current voice channel', aliases=['t', 'teams'])
+async def team(ctx, no_of_teams: int, *args):
     guild = ctx.guild
     author = ctx.author
     checker = 0
     members = []
+    member_names = []
     for voice_channel in guild.voice_channels:
         if author in voice_channel.members:
             members = voice_channel.members.copy()
@@ -41,19 +42,24 @@ async def team(ctx, no_of_teams: int):
     for member in members:
         if member.bot:
             members.remove(member)
+        else:
+            member_names.append(member.name)
 
-    per_team_members = len(members) // no_of_teams
-    no_of_extra_members = len(members) - (per_team_members * no_of_teams)
+    if len(args) > 0:
+        member_names = member_names + list(args)
+
+    per_team_members = len(member_names) // no_of_teams
+    no_of_extra_members = len(member_names) - (per_team_members * no_of_teams)
     teams = []
-    random.shuffle(members)
+    random.shuffle(member_names)
     for x in range(no_of_teams):
         var_team = []
         for y in range(per_team_members):
-            var_team.append(members.pop().name)
+            var_team.append(member_names.pop())
         teams.append(var_team)
 
     for x in range(no_of_extra_members):
-        teams[x].append(members.pop().name)
+        teams[x].append(member_names.pop())
 
     for index, team_ in enumerate(teams):
         await ctx.send(f'Team {index + 1}: {", ".join(team_)}')

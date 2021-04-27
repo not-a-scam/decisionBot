@@ -1,5 +1,6 @@
 import os
 import random
+import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -7,6 +8,12 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='!')
+
+
+@bot.event
+async def on_ready():
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.competing,
+                                                        name='in Monke Chess'))
 
 
 @bot.command(name='team', help='Generates teams from your current voice channel', aliases=['t'])
@@ -217,6 +224,6 @@ async def rand_weapon(ctx, *args):
         return
 
     else:
-        await ctx.send('Game does not exist/ is not supported!')
+        await ctx.send('Game does not exist/is not supported!')
 
 bot.run(TOKEN)

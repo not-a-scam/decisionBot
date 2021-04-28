@@ -1,6 +1,7 @@
 import os
 import random
 import discord
+from asyncio import sleep
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -244,4 +245,24 @@ async def rand_weapon(ctx, *args):
     else:
         await ctx.send('Game does not exist/is not supported!')
 
-bot.run(TOKEN)
+
+@bot.command(name='monke', help='MONKE!')
+async def monke(ctx):
+    if not ctx.message.author.voice:
+        await ctx.send("{} is not connected to a voice channel".format(ctx.message.author.name))
+        return
+    else:
+        channel = ctx.message.author.voice.channel
+    await channel.connect()
+    server = ctx.message.guild
+    voice_channel = server.voice_client
+    async with ctx.typing():
+        voice_channel.play(discord.FFmpegPCMAudio(source="monke.mp4"))
+        while voice_channel.is_playing():
+            await sleep(1)
+        await voice_channel.disconnect()
+    await ctx.send('mmm monke')
+
+
+if __name__ == "__main__":
+    bot.run(TOKEN)

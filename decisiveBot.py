@@ -249,7 +249,7 @@ async def rand_weapon(ctx, *args):
 @bot.command(name='monke', help='MONKE!', aliases=['MONKE', 'monkey', 'MONKEY'])
 async def monke(ctx):
     if not ctx.message.author.voice:
-        await ctx.send("{} is not connected to a voice channel".format(ctx.message.author.name))
+        await ctx.send('You must be in a voice channel for this command to work!')
         return
     else:
         channel = ctx.message.author.voice.channel

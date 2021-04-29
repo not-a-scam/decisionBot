@@ -23,7 +23,7 @@ async def on_ready():
 
 # creates a team based on the people in the voice channel the person who called the command is in. Can generate a
 # custom number of teams by taking in a no. of teams argument
-@bot.command(name='team', help='Generates teams from your current voice channel', aliases=['t', 'teams'])
+@bot.command(name='team', help='Generates teams from your current voice channel', aliases=['t', 'teams', 'TEAM', 'TEAMS'])
 async def team(ctx, no_of_teams: int, *args):
     guild = ctx.guild
     author = ctx.author
@@ -205,7 +205,7 @@ async def choose(ctx):
 
 
 # randomly picks a weapon out of a pool of weapons for a specific game. Type of weapon can also be specified
-@bot.command(name='weapon', help='Generates a random weapon', aliases=['w'])
+@bot.command(name='weapon', help='Generates a random weapon', aliases=['w', 'WEAPON', 'weapons', 'WEAPONS'])
 async def rand_weapon(ctx, *args):
     game = args[0].lower()
     if len(args) >= 2:
@@ -246,7 +246,7 @@ async def rand_weapon(ctx, *args):
         await ctx.send('Game does not exist/is not supported!')
 
 
-@bot.command(name='monke', help='MONKE!')
+@bot.command(name='monke', help='MONKE!', aliases=['MONKE', 'monkey', 'MONKEY'])
 async def monke(ctx):
     if not ctx.message.author.voice:
         await ctx.send("{} is not connected to a voice channel".format(ctx.message.author.name))

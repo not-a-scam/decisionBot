@@ -71,7 +71,7 @@ async def team(ctx, no_of_teams: int, *args):
 async def rand_map(ctx, game):
     game = game.lower()
     if game == 'valorant' or game == 'val':
-        maps = ['Icebox', 'Split', 'Ascent', 'Bind', 'Haven']
+        maps = ['Icebox', 'Split', 'Ascent', 'Bind', 'Haven', 'Breeze']
         await ctx.send(f'Map generated: {random.choice(maps)}')
         return
     else:

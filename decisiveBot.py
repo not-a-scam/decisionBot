@@ -1,9 +1,11 @@
 import os
 import random
 import discord
+import io
+import aiohttp
 from asyncio import sleep
-from discord.ext import commands
 from dotenv import load_dotenv
+from discord.ext import commands
 
 # Gets bot token and possibly other sensitive information from a .env file
 load_dotenv()
@@ -261,7 +263,17 @@ async def monke(ctx):
         while voice_channel.is_playing():
             await sleep(1)
         await voice_channel.disconnect()
-    await ctx.send('mmm monke')
+
+
+@bot.command(name='photo', help='Produces a picture of a beautiful monke')
+async def photo(ctx):
+    url = "https://www.placemonkeys.com/500/350?random"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            if resp.status != 200:
+                return await ctx.send('Could not download file...')
+            data = io.BytesIO(await resp.read())
+            await ctx.send(file=discord.File(data, 'monke.png'))
 
 
 if __name__ == "__main__":
